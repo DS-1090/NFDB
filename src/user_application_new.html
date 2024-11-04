@@ -12,6 +12,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
     <!--Top Header-->
     <div class="container-fluid py-3" style="background-color: #0a266c">
@@ -147,9 +148,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="user_query.html">Queries</a>
             </li>
-            <li>
+           <!-- <li>
                 <a class="nav-link" href="user_manual.html">User Manual</a>
-            </li>
+            </li> -->
             <li>
                 <a class="nav-link" href="user_reports.html">Upload Quarterly Reports</a>
             </li>
@@ -211,7 +212,7 @@
                                 <option value="uttarakhand">Uttarakhand</option>
                                 <option value="west-bengal">West Bengal</option>
                             </select>
-                            <br>
+                           <!-- <br>
                             <label for="gender">Choose your gender:</label>
                             <select id="gender" name="gender" class="form-control form-step-1" required>
                                 <option value="" disabled selected>Select</option>
@@ -235,7 +236,7 @@
                             <label for="addressProofId">Address Proof ID/ No:</label>
                             <input type="number" id="addressProofId" name="addressProofId"
                                 placeholder="Enter your Address proof" class="form-control form-step-1" required>
-                            <br>
+                            <br>-->
                             <!-- <div>
                                 <label for="addressProof">Address Proof:
                                 </label>
@@ -538,8 +539,8 @@
                                 <input type="file" id="bankConsentUpload" name="bankConsentUpload"
                                     class="form-control form-step-2" required>
                             </div>
-                            <br>
-                            <!--<div>
+                           <!-- <br>
+                            <div>
                                 <label for="bankConsentDetails">Details of the Bank Consent:</label>
                                 <input type="text" id="bankConsentDetails" name="bankConsentDetails"
                                     placeholder="Enter Bank Consent Details" class="form-control form-step-2" required>
@@ -619,7 +620,7 @@
                             </div>
                             <br>
                             
-                            <div>
+                           <!-- <div>
                                 <label for="objectives">Objectives:</label>
                                 <input type="file" id="objectives" name="objectives" class="form-control form-step-3"  required>
                             </div>
@@ -636,7 +637,7 @@
                                 <input type="text" id="totalProjectCost" name="totalProjectCost"
                                     placeholder="Enter Total Project Cost" class="form-control form-step-3" required>
                             </div>
-                            <br>
+                           <br>
                             <div>
                                 <label for="governmentAssistance">Government Assistance:</label>
                                 <input type="text" id="governmentAssistance" name="governmentAssistance"
@@ -657,7 +658,7 @@
                                 <input type="text" id="bankLoan" name="bankLoan" placeholder="Enter Bank Loan"
                                     class="form-control form-step-3" required>
                             </div>
-                            <br>
+                            <br> -->
 
                             <!-- <div>
                                 <label for="implementationDuration">Project implementation duration (No. of months/years):</label>
@@ -741,7 +742,7 @@
                                     class="form-control form-step-4" required>
                             </div>
                             <br>
-
+<!-- 
                             <div>
                                 <label for="capitalOperationalCost">Detailed breakup of the capital and operational cost:</label>
                                 <input type="file" id="capitalOperationalCost" name="capitalOperationalCost" class="form-control form-step-4"  required>
@@ -752,7 +753,7 @@
                                 <label for="costEstimates">Detailed cost estimates for civil construction works as per the present/ latest CPWD <br> DSR certified by an authorized Govt. Civil Engineer:</label>
                                 <input type="file" id="costEstimates" name="costEstimates"  class="form-control form-step-4"  required>
                             </div>
-                            <br> 
+                            <br> -->
 
                             <!-- <div>
                                 <label for="layoutDesign">Detailed layout and design depicting all the proposed activities:</label>
@@ -883,196 +884,215 @@
     <!--JS Functions-->
     <script>
 
-        // Next&Prev Buttons
-        document.addEventListener("DOMContentLoaded", function () {
-            const form = document.getElementById("application-form");
-            const steps = form.querySelectorAll(".card");
+  // Next & Prev Buttons
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("application-form");
+    const steps = form.querySelectorAll(".card");
+    let currentStep = 0;
 
-            let currentStep = 0;
+    function showStep(stepIndex) {
+        steps.forEach((step, index) => {
+            step.classList.toggle("d-none", index !== stepIndex);
+        });
+    }
 
-            function showStep(stepIndex) {
-                steps.forEach((step, index) => {
-                    if (index === stepIndex) {
-                        step.classList.remove("d-none");
-                    } else {
-                        step.classList.add("d-none");
-                    }
-                });
-            }
-
-            function nextStep() {
-                if (currentStep < steps.length - 1) {
-                    currentStep++;
-                    showStep(currentStep);
-                    updateNextButtonState();
-                }
-            }
-
-            function previousStep() {
-                if (currentStep > 0) {
-                    currentStep--;
-                    showStep(currentStep);
-                    updateNextButtonState();
-                }
-            }
-
-            function validateStep() {
-                const currentStepElement = steps[currentStep];
-                const requiredFields = currentStepElement.querySelectorAll("[required]");
-                let isValid = true;
-
-                requiredFields.forEach(function (field) {
-                    if (!field.value) {
-                        isValid = false;
-                        field.style.borderColor = "#0a266c";
-                    } else {
-                        field.style.borderColor = "";
-                    }
-                });
-
-                return isValid;
-            }
-
-            function updateNextButtonState() {
-                const currentStepElement = steps[currentStep];
-                const nextButton = currentStepElement.querySelector(".next");
-                if (nextButton) {
-                    nextButton.disabled = !validateStep();
-                }
-            }
-
-            const nextButtons = form.querySelectorAll(".next");
-            nextButtons.forEach((button) => {
-                button.addEventListener("click", function (event) {
-                    if (!validateStep()) {
-                        event.preventDefault();
-                    } else {
-                        nextStep();
-                    }
-                });
-            });
-
-            const previousButtons = form.querySelectorAll(".previous");
-            previousButtons.forEach((button) => {
-                button.addEventListener("click", previousStep);
-            });
-
-            form.addEventListener("input", updateNextButtonState);
-
+    function nextStep() {
+        if (currentStep < steps.length - 1) {
+            currentStep++;
             showStep(currentStep);
             updateNextButtonState();
-        });
-
-        //OWN or LEASE land CHANGE
-        function handleLandTypeChange() {
-            var landType = document.getElementById('typeLand').value;
-            var ownLandDetailsSection = document.getElementById('ownLandDetailsSection');
-            var leasedLandDetailsSection = document.getElementById('leasedLandDetailsSection');
-
-            if (landType === 'Own') {
-                ownLandDetailsSection.style.display = 'block';
-                leasedLandDetailsSection.style.display = 'none';
-            } else if (landType === 'Lease') {
-                ownLandDetailsSection.style.display = 'none';
-                leasedLandDetailsSection.style.display = 'block';
-            } else {
-                ownLandDetailsSection.style.display = 'none';
-                leasedLandDetailsSection.style.display = 'none';
-            }
         }
+    }
 
-        //ON SUBMIT function
-        document.addEventListener('DOMContentLoaded', (event) => {
-            document.getElementById('typeLand').addEventListener('change', handleLandTypeChange);
-            document.getElementById('application-form').onsubmit = async function (event) {
-                event.preventDefault();
+    function previousStep() {
+        if (currentStep > 0) {
+            currentStep--;
+            showStep(currentStep);
+            updateNextButtonState();
+        }
+    }
 
-                const formData = new FormData(this);
-                const entries = formData.entries();
-                const data = {};
+    function validateStep() {
+        const currentStepElement = steps[currentStep];
+        const requiredFields = currentStepElement.querySelectorAll("[required]");
+        let isValid = true;
 
-                for (let entry of entries) {
-                    const [key, value] = entry;
-                    if (value instanceof File) {
-                        data[key] = value.name;
-
-                        const fileReader = new FileReader();
-                        fileReader.readAsDataURL(value);
-                        fileReader.onload = function (event) {
-                            localStorage.setItem(`${key}_content`, event.target.result);
-                        };
-                    } else {
-                        data[key] = value;
-                    }
-                }
-
-                const textData = Object.entries(data).map(([key, value]) => `${key}: ${value}`).join('\n');
-                const blob = new Blob([textData], { type: 'text/plain' });
-                const url = URL.createObjectURL(blob);
-                localStorage.setItem('applicationFormText', url);
-
-                let ApplicationNo = parseInt(localStorage.getItem('ApplicationNo')) || 0;
-                ApplicationNo++;
-                localStorage.setItem('ApplicationNo', ApplicationNo);
-                localStorage.setItem(`Application_${ApplicationNo}`, url);
-
-                let applications = JSON.parse(localStorage.getItem('applications')) || [];
-                applications.push(ApplicationNo);
-                localStorage.setItem('applications', JSON.stringify(applications));
-                const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF();
-
-                let yPosition = 20;
-                for (let key in data) {
-                    pdf.text(20, yPosition, `${key}: ${data[key]}`);
-                    yPosition += 10;
-                }
-
-                const pdfBlob = pdf.output('blob');
-                const pdfUrl = URL.createObjectURL(pdfBlob);
-                localStorage.setItem(`applicationFormPDF-${ApplicationNo}`, pdfUrl);
-
-
-
-                const downloadButton = document.getElementById('downloadPdf');
-                downloadButton.style.display = 'block';
-                downloadButton.onclick = function () {
-                    const link = document.createElement('a');
-                    link.href = pdfUrl;
-                    link.download = 'form_data.pdf';
-                    link.click();
-                };
-
-
-
-                this.reset();
-                alert('Application submitted successfully!');
-
-                const prevbutton = document.querySelector('.prevbtn-set-4');
-                if (prevbutton) {
-                    prevbutton.disabled = true;
-                }
-
-
-                const newWindow = window.open("", "_blank");
-                newWindow.document.write("<html><head><title>Form Data</title></head><body><h1>Form Data</h1><ul>");
-                for (let key in data) {
-                    newWindow.document.write(`<li><strong>${key}:</strong> ${data[key]}</li>`);
-                }
-                newWindow.document.write("</ul><button id='downloadTextFromNewWindow'>Download as Text</button></body></html>");
-                newWindow.document.close();
-
-                newWindow.document.getElementById('downloadTextFromNewWindow').onclick = function () {
-                    const blob = new Blob([textData], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.download = 'form_data.txt';
-                    link.click();
-                };
-
-            };
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                field.style.borderColor = "#0a266c";
+            } else {
+                field.style.borderColor = "";
+            }
         });
+
+        return isValid;
+    }
+
+    function updateNextButtonState() {
+        const currentStepElement = steps[currentStep];
+        const nextButton = currentStepElement.querySelector(".next");
+        if (nextButton) {
+            nextButton.disabled = !validateStep();
+        }
+    }
+
+    form.querySelectorAll(".next").forEach(button => {
+        button.addEventListener("click", function (event) {
+            if (!validateStep()) {
+                event.preventDefault();
+            } else {
+                nextStep();
+            }
+        });
+    });
+
+    form.querySelectorAll(".previous").forEach(button => {
+        button.addEventListener("click", previousStep);
+    });
+
+    form.addEventListener("input", updateNextButtonState);
+    showStep(currentStep);
+    updateNextButtonState();
+
+    // OWN or LEASE land CHANGE
+    document.getElementById('typeLand').addEventListener('change', handleLandTypeChange);
+});
+
+// Handle land type change
+function handleLandTypeChange() {
+    const landType = document.getElementById('typeLand').value;
+    const ownLandDetailsSection = document.getElementById('ownLandDetailsSection');
+    const leasedLandDetailsSection = document.getElementById('leasedLandDetailsSection');
+
+    ownLandDetailsSection.style.display = landType === 'Own' ? 'block' : 'none';
+    leasedLandDetailsSection.style.display = landType === 'Lease' ? 'block' : 'none';
+}
+
+// ON SUBMIT function
+document.getElementById('application-form').onsubmit = async function (event) {
+    event.preventDefault();
+    const formData = new FormData(this);
+    const entries = formData.entries();
+    const data = {};
+
+    for (let entry of entries) {
+        const [key, value] = entry;
+        if (value instanceof File) {
+            data[key] = value.name;
+
+            const fileReader = new FileReader();
+            fileReader.readAsDataURL(value);
+            fileReader.onload = function (event) {
+                localStorage.setItem(`${key}_content`, event.target.result);
+            };
+        } else {
+            data[key] = value;
+        }
+    }
+
+    // Create a text blob
+    const textData = Object.entries(data).map(([key, value]) => `${key}: ${value}`).join('\n');
+    const blob = new Blob([textData], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    localStorage.setItem('applicationFormText', url);
+
+    let ApplicationNo = parseInt(localStorage.getItem('ApplicationNo')) || 0;
+    ApplicationNo++;
+    localStorage.setItem('ApplicationNo', ApplicationNo);
+    localStorage.setItem(`Application_${ApplicationNo}`, url);
+
+    // Generate PDF using jsPDF
+   /* const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+    let yPosition = 20;
+
+    for (let key in data) {
+        pdf.text(20, yPosition, `${key}: ${data[key]}`);
+        yPosition += 10;
+    } 
+
+    const pdfBlob = pdf.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    localStorage.setItem(`applicationFormPDF-${ApplicationNo}`, pdfUrl);
+
+    // Show download button
+    const downloadButton = document.getElementById('downloadPdf');
+    downloadButton.style.display = 'block';
+    downloadButton.onclick = function () {
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = 'form_data.pdf';
+        link.click();
+    };
+*/
+    this.reset();
+    alert('Application submitted successfully!');
+
+    const prevButton = document.querySelector('.prevbtn-set-4');
+    if (prevButton) {
+        prevButton.disabled = true;
+    }
+
+    // Prepare FormData for API upload
+    const form = new FormData();
+    form.append('File', blob, 'form_data.txt');
+
+    const options = {
+        method: 'POST',
+        headers: {
+            accept: 'application/json',
+            authorization: 'Bearer secret_OvazNUnguH7bRAjT'
+        },
+        body: form
+    };
+
+    // Make the API call to convert the text file to PDF
+   fetch('https://v2.convertapi.com/convert/txt/to/pdf', options)
+    .then(res => {
+        if (!res.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return res.json();
+    })
+    .then(res => {
+        console.log('API response:', res);
+        if (res && res.Files && res.Files.length > 0) {
+            const fileData = res.Files[0].FileData; // Base64 PDF string
+            const fileName = res.Files[0].FileName;
+
+            // Convert base64 to Blob
+            const byteCharacters = atob(fileData);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+            // Create a download link
+               const downloadButton = document.getElementById('downloadPdf');
+    downloadButton.style.display = 'block';
+    downloadButton.onclick = function () {
+     const pdfUrl = URL.createObjectURL(blob);
+            const pdfLink = document.createElement('a');
+            pdfLink.href = pdfUrl;
+            pdfLink.download = fileName; // Use the original file name
+            pdfLink.click();
+
+             
+    }
+           
+
+        } else {
+            console.error('No PDF files returned in the response.');
+        }
+    })
+    .catch(err => console.error('Error converting file:', err));
+
+       
+   };
+ 
 
     </script>
 </body>

@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  php:
+    build: .
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    volumes:
+      - ./src:/var/www/html
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: my_user_password
+    ports:
+      - "3306:3306"
